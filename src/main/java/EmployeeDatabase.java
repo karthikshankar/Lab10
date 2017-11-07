@@ -15,7 +15,7 @@ public class EmployeeDatabase {
     /**
      * List of employees.
      */
-    public List<Employee> employees;
+    private List<Employee> employees;
 
     /**
      * Constructor which initializes the employees list.
@@ -30,10 +30,10 @@ public class EmployeeDatabase {
     /**
      * Returns the manager for the given employee.
      *
-     * @param employee
-     * @return
+     * @param employee - Employee variable for this method.
+     * @return employee.
      */
-    Employee findManager(final Employee employee) {
+    public Employee findManager(final Employee employee) {
         Employee manager = null;
         for (int i = 0; i < employees.size(); i++) {
             if (employees.get(i).getName() == employee.getManager()) {
@@ -50,12 +50,14 @@ public class EmployeeDatabase {
      * Consider both a recursive and an iterative solution to this problem.
      *
      * @param employee name of the employee
-     * @return int
+     * @return integer
      */
     public int countManagersAbove(final Employee employee) {
-        /*
-         * Implement this function
-         */
+        int count = 1;
+        if (employee.getManager() == "") {
+            return 0;
+        }
+        return (count + countManagersAbove(findManager(employee)));
     }
 
     /**
@@ -64,12 +66,17 @@ public class EmployeeDatabase {
      * Consider both a recursive and an iterative solution to this problem.
      *
      * @param employee name of the employee
-     * @return int
+     * @return integer
      */
     public int countEmployeesUnder(final Employee employee) {
-        /*
-         * Implement this function
-         */
+        int finCount = 0;
+        int addVal = 1;
+        for (int count = 0; count < employees.size(); count++) {
+            if (employees.get(count).getManager().equals(employee.getName())) {
+                finCount += addVal + countEmployeesUnder(employees.get(count));
+            }
+        }
+        return finCount;
     }
 
     /**
